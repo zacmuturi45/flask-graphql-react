@@ -1,5 +1,5 @@
 from src import create_app
-from models import db, User, Gemstone, Review, user_gemstones
+from src.models import db, User, Gemstone, Review, user_gemstones
 from faker import Faker
 import random
 
@@ -68,8 +68,8 @@ def seed():
         for _ in range(random.randint(1, 5)):
             gem = random.choice(gems)
 
-            if gem not in u.gemstones:
-                u.gemstones.append(gem)
+            if gem not in u.gems:
+                u.gems.append(gem)
 
             review = Review(content=fake.paragraph(), user_id=u.id, gemstone_id=gem.id)
             db.session.add(review)

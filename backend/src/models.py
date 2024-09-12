@@ -24,11 +24,8 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(55), unique=True, nullable=False)
-
-    gemstones = db.relationship(
-        "Gemstone", backref="user", cascade="all, delete-orphan"
-    )
     reviews = db.relationship("Review", backref="user")
+    gems = db.relationship("Gemstone", secondary="user_gemstones", back_populates="buyers")
 
 
 class Gemstone(db.Model):
@@ -40,8 +37,7 @@ class Gemstone(db.Model):
     reviews = db.relationship(
         "Review", backref="gemstone", cascade="all, delete-orphan"
     )
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-
+    buyers = db.relationship("User", secondary="user_gemstones", back_populates="gems")
 
 class Review(db.Model):
     __tablename__ = "reviews"
@@ -49,4 +45,4 @@ class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String())
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    gemstone_id = db.Column(db.Integer, db.ForeignKey("games.id"), nullable=False)
+    gemstone_id = db.Column(db.Integer, db.ForeignKey("gemstones.id"), nullable=False)
