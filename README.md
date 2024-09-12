@@ -471,7 +471,8 @@ def create_app(config_name="default"):
     # Here, we bind our SQLAlchemy database instance to the Flask app. Since SQLAlchemy is initialized outside the app, it must be explicitly attached to the current app instance.
     db.init_app(app)
 
-    # Here, we enable CORS for the entire app, allowing our app to handle cross-origin HTTP requests. This is useful if our frontend runs on a different domain or port than your Flask backend.
+    # Here, we enable CORS for the entire app, allowing our app to handle cross-origin HTTP requests. Since our React or Next.js frontend will be hosted on a different port or server, our browser treats these as separate origins. By default browsers block cross-origin requests for security reasons.
+    # CORS allows our frontend to communicate with the backend, enabling it to fetch or send data, such as making GraphQL or REST API requests to our Flask server.
     CORS(app)
 
     # This binds Flask-Migrate to both the app and the SQLAlchemy database instance. It enables us to run database migrations to apply schema changes to our database.
